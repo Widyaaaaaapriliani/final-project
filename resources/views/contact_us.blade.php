@@ -4,11 +4,12 @@
 
 @section('content')
     <section class="py-24 relative px-32">
-        <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+        <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto mt-10">
             <div class="w-full flex flex-col items-center gap-10">
                 <div class="text-center">
                     <h6 class="text-gray-400 text-xl font-normal leading-relaxed">Hubungi Kami</h6>
-                    <h2 class="text-green-700 text-4xl font-bold font-manrope leading-normal">Layanan Pelanggan Lumbung Pangan</h2>
+                    <h2 class="text-4xl font-bold font-manrope leading-normal" style="color: #20750b;">Layanan Pelanggan Lumbung Pangan</h2>
+                    
                     <p class="text-gray-500 text-base font-normal leading-relaxed mt-4">
                         Kami di sini untuk membantu Anda. Jangan ragu untuk menghubungi kami melalui informasi di bawah ini atau dengan
                         mengisi formulir kontak.
@@ -25,7 +26,7 @@
                             </div>
                             <div>
                                 <h4 class="text-gray-900 text-xl font-bold">Telepon</h4>
-                                <p class="text-gray-500 text-base">+62 812-3456-7890</p>
+                                <p class="text-gray-500 text-base">+62 852-4227-1149</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-6">
@@ -47,7 +48,7 @@
                             </div>
                             <div>
                                 <h4 class="text-gray-900 text-xl font-bold">Alamat</h4>
-                                <p class="text-gray-500 text-base">Jalan Pangan Sejahtera No. 45, Makassar</p>
+                                <p class="text-gray-500 text-base">Jl. Toddopuli Raya Timur No.83 Blok HC No. 15, Makassar</p>
                             </div>
                         </div>
                     </div>

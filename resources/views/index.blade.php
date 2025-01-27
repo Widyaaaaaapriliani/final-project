@@ -4,33 +4,74 @@
 
 @section('content')
 
-    <section class="py-12 pb-8 pt-28 h-screen bg-gray-100">
-        <div class="px-32 flex gap-24">
-            <div class="max-w-lg pt-6">
-                <h1 class="text-5xl font-bold text-green-600">Lumbung <br> Pangan
-                <span class="block text-9xl text-green-600">Pilihan</span>    
-                <span class="block text-5xl pl-28">Harian Anda.</span></h1>
-                <p class="mt-4 text-gray-900 pr-20">
-                    Lumbung Pangan menyediakan solusi mudah, praktis, dan beragam untuk kebutuhan harian Anda, langsung di ujung jari.
-                </p>
-                <a href="/shop" class="inline-block mt-6 bg-green-500 text-white py-3 px-8 rounded-full hover:bg-green-700">Get Started</a>
+<section class="py-15 h-screen bg-gray-100 flex items-center">
+  <div class="container mx-auto flex items-center gap-8 px-6">
+    <!-- Left Section (Enhanced Text) -->
+    <div class="w-1/2">
+      <h1 class="text-9xl font-extrabold text-green-600 leading-tight">
+        Selamat Datang!
+      </h1>
+      <p class="mt-7 text-gray-700 text-lg">
+        Nikmati <span class="text-green-600 font-semibold">pengalaman terbaik</span> bersama Lumbung Pangan. Solusi mudah, praktis, dan beragam untuk kebutuhan harian Anda.
+      </p>
+      <ul class="mt-6 text-gray-600 space-y-2 text-base">
+        <li><span class="text-green-600 font-semibold">✔</span> Produk segar langsung dari petani</li>
+        <li><span class="text-green-600 font-semibold">✔</span> Proses belanja yang cepat dan mudah</li>
+        <li><span class="text-green-600 font-semibold">✔</span> Harga terjangkau untuk semua kebutuhan</li>
+      </ul>
+      <div class="mt-6 space-x-4">
+        <a href="/login" class="bg-green-600 text-white py-3 px-6 rounded-full hover:bg-green-500 shadow-lg transition">Mulai Berbelanja</a>
+        <a href="/about" class="bg-gray-200 text-gray-800 py-3 px-6 rounded-full hover:bg-gray-300 shadow-lg transition">Pelajari Lebih Lanjut</a>
+      </div>
+    </div>
 
+    <!-- Right Section (Image Slider) -->
+    <div class="w-1/2">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <!-- Slide 1 -->
+          <div class="swiper-slide">
+            <div class="relative w-full h-[420px] overflow-hidden shadow-lg rounded-lg">
+              <img src="{{ asset('images/slide bar 1.jpg') }}" 
+              alt="Gambar 1" class="w-full h-full object-cover">
             </div>
-            <div class="relative">
-                <div class="absolute z-10 w-[400px] translate-y-6 h-[420px] overflow-hidden shadow-lg">
-                    <img src="https://plus.unsplash.com/premium_photo-1678344177250-bfdbed89fc03?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGZhcm1lcnxlbnwwfHwwfHx8MA%3D%3D" alt="Skincare Model"
-                        class="w-full h-full object-cover shadow-lg shadow-slate-900">
-                </div>
-                <div class="absolute -z-0 -left-6 top-0 w-[400px] h-[420px] shadow-lg border border-black">
-                </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="swiper-slide">
+            <div class="relative w-full h-[420px] overflow-hidden shadow-lg rounded-lg">
+              <img src="{{ asset('images/slide bar 2.jpg') }}" 
+              alt="Gambar 1" class="w-full h-full object-cover">
             </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="swiper-slide">
+            <div class="relative w-full h-[420px] overflow-hidden shadow-lg rounded-lg">
+              <img src="{{ asset('images/slide bar 3.png') }}" 
+              alt="Gambar 1" class="w-full h-full object-cover">
+            </div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="swiper-slide">
+            <div class="relative w-full h-[420px] overflow-hidden shadow-lg rounded-lg">
+              <img src="{{ asset('images/slide bar 4.jpg') }}" 
+              alt="Gambar 1" class="w-full h-full object-cover">
+            </div>
+          </div>
+
         </div>
-        <hr class="border-t-4 border-gray-300 mt-8">
-    </section>
+        <!-- Pagination -->
+        <div class="swiper-pagination mt-4"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- Categories Section -->
-    <section class="">
-        <div class="px-32 w-full h-full">
+    <section class="py-16">
+        <div class="px-8 w-full h-full">
             <h1 class="text-center text-4xl font-bold text-green-700">Kenapa Harus Lumbung Pangan?</h1>
             
             <div class="mt-5 max-w-7xl mx-auto px-4 py-12">
@@ -85,7 +126,7 @@
 
     <!-- Bestsellers Section -->
     <section class="py-12 px-32">
-        <div class="container mx-auto">
+        <div class="container mx-auto mt-20">
             <h2 class="text-center text-3xl font-semibold text-green-700">Produk Terlaris</h2>
             <h2 class="text-center text-xl font-light mb-6 mt-2 mx-52 text-gray-500">
                 Temukan produk terlaris kami yang telah menjadi favorit pelanggan
@@ -168,6 +209,27 @@ document.querySelectorAll('#add-to-cart').forEach(button => {
         }
     });
 });
-
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1, // Menampilkan satu slide per kali
+            loop: true, // Slider akan kembali ke awal setelah slide terakhir
+            autoplay: {
+                delay: 3000, // Interval antar slide (ms)
+                disableOnInteraction: false, // Autoplay tetap berjalan meskipun pengguna berinteraksi
+            },
+            pagination: {
+                el: '.swiper-pagination', // Elemen pagination
+                clickable: true, // Membuat pagination interaktif
+            },
+            speed: 600, // Kecepatan transisi slide (ms)
+            effect: 'fade', // Tambahkan efek transisi jika ingin
+            fadeEffect: {
+                crossFade: true, // Memperhalus efek transisi fade
+            },
+        });
+    });
+</script>
+
 @endsection

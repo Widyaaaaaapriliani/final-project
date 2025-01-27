@@ -2,26 +2,42 @@
     class="flex top-0 justify-between items-center py-4 px-32 bg-white z-50 bg-gradient-to-r from-cream to-gray-100 w-full fixed ">
     {{-- logo --}}
     <div class="text-2xl text-slate-700">
-        <img src="{{ asset('images/logo_lumbung.png') }}" alt="" class="w-[180px]">
+        <img src="{{ asset('images/lumbung-pangan.png') }}" alt="" class="w-[180px]">
     </div>
 
 
 
     {{-- menu --}}
     <nav class="space-x-5 text-sm font-bold ">
-        <a href="/"
-            class="text-gray-900 hover:text-white hover:bg-green-700 {{ Request::is('/') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded">Home</a>
-        <a href="/shop"
-            class="text-gray-900 hover:text-white hover:bg-green-700 {{ Request::is('shop') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded">Shop</a>
-        <a href="/kategori"
-            class="text-gray-900 hover:text-white hover:bg-green-700 {{ Request::is('kategori') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded">Categori</a>
+    <a href="/"
+        class="text-gray-900 hover:text-white {{ Request::is('/') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded"
+        style="transition: background-color 0.3s;"
+        onmouseover="this.style.backgroundColor='#20750b';"
+        onmouseout="this.style.backgroundColor='';">Home</a>
 
-        <a href="/about"
-            class="text-gray-900 hover:text-white hover:bg-green-700 {{ Request::is('about') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded">About
-            Us</a>
-        <a href="/contact-us"
-            class="text-gray-900 hover:text-white hover:bg-green-700 {{ Request::is('contact-us') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded">Contact</a>
+    <a href="/shop"
+        class="text-gray-900 hover:text-white {{ Request::is('shop') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded"
+        style="transition: background-color 0.3s;"
+        onmouseover="this.style.backgroundColor='#20750b';"
+        onmouseout="this.style.backgroundColor='';">Shop</a>
 
+    <a href="/kategori"
+        class="text-gray-900 hover:text-white {{ Request::is('kategori') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded"
+        style="transition: background-color 0.3s;"
+        onmouseover="this.style.backgroundColor='#20750b';"
+        onmouseout="this.style.backgroundColor='';">Categori</a>
+
+    <a href="/about"
+        class="text-gray-900 hover:text-white {{ Request::is('about') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded"
+        style="transition: background-color 0.3s;"
+        onmouseover="this.style.backgroundColor='#20750b';"
+        onmouseout="this.style.backgroundColor='';">About Us</a>
+
+    <a href="/contact-us"
+        class="text-gray-900 hover:text-white {{ Request::is('contact-us') ? 'bg-green-700 text-white' : '' }} px-4 py-2 rounded"
+        style="transition: background-color 0.3s;"
+        onmouseover="this.style.backgroundColor='#20750b';"
+        onmouseout="this.style.backgroundColor='';">Contact</a>
     </nav>
 
 

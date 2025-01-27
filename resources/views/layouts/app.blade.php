@@ -7,6 +7,9 @@
     <title>@yield('title', 'Laravel')</title>
 
     <!-- CSS -->
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -46,6 +49,8 @@
     @yield('scripts')
     <!-- Scripts -->
     <script src="{{ asset('js/handleModalProduct.js') }}"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 </body>
 
 </html>

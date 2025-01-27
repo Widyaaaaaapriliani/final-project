@@ -51,7 +51,6 @@
                             <button id="add-to-cart"
                              class="flex items-center justify-center bg-green-500 text-white hover:bg-green-700 rounded-lg transform transition hover:scale-105 shadow-lg px-4 py-2">
                             <img src="{{ asset('images/carts.png') }}" alt="cart icon" class="h-12 mr-2">
-                            <span>Tambah ke Keranjang</span>
                             </button>
 
 
