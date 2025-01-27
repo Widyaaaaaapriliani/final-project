@@ -166,49 +166,65 @@
     function isUserLoggedIn() {
         return {{ auth()->check() ? 'true' : 'false' }}; 
     }
+   
 
-document.querySelectorAll('#add-to-cart').forEach(button => {
-    button.addEventListener('click', async function () {
-        if (!isUserLoggedIn()) {
-            window.location.href = "{{ route('login') }}";
-            return;
-        }
-
-        const productId = this.dataset.productId; // Ambil ID produk dari data-attribute tombol
-        const qty = 1; // Set default quantity
-
-        if (isNaN(qty) || qty < 1) {
-            alert('Quantity harus minimal 1.');
-            return;
-        }
-
-        try {
-            const response = await fetch(`{{ route('cart.add', ':id') }}`.replace(':id', productId), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    quantity: qty
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error('Terjadi kesalahan saat menambahkan ke keranjang.');
+    document.querySelectorAll('#add-to-cart').forEach(button => {
+        button.addEventListener('click', async function () {
+            if (!isUserLoggedIn()) {
+                window.location.href = "{{ route('login') }}";
+                return;
             }
 
-            const data = await response.json();
-            console.log('Response:', data);
+            const productId = this.dataset.productId; // Ambil ID produk dari data-attribute tombol
+            const qty = 1; // Set default quantity
 
-            // Tampilkan modal atau beri notifikasi berhasil
-            document.getElementById('my_modal_3').showModal();
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Gagal menambahkan ke keranjang. Silakan coba lagi.');
-        }
+            if (isNaN(qty) || qty < 1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Quantity harus minimal 1.'
+                });
+                return;
+            }
+
+            try {
+                const response = await fetch(`{{ route('cart.add', ':id') }}`.replace(':id', productId), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        quantity: qty
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Terjadi kesalahan saat menambahkan ke keranjang.');
+                }
+
+                const data = await response.json();
+                console.log('Response:', data);
+
+                // Tampilkan SweetAlert untuk notifikasi sukses
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Produk berhasil ditambahkan ke keranjang.',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Gagal menambahkan ke keranjang. Silakan coba lagi.'
+                });
+            }
+        });
     });
-});
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

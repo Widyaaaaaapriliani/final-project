@@ -33,7 +33,7 @@ class TransaksiController extends Controller
         $userId        = session('user_id');
         $transaksiList = Transaksi::with('product')  // Muat relasi ke produk
             ->where('id_pelanggan', $userId)
-            ->whereIn('status', ['dikirim'])
+            ->whereIn('status', ['pending', 'dikemas', 'dikirim'])
             ->get();
 
         return view('pesanan', compact('transaksiList'));

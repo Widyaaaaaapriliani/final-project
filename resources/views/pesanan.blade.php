@@ -40,7 +40,6 @@
                     <p class="text-lg font-semibold">Total Harga: Rp {{ number_format($transaksi->harga_total, 2) }}</p>
 
                     <!-- Tombol Pesanan Diterima -->
-                    <!-- Tombol Pesanan Diterima -->
                     @if ($transaksi->status === 'dikirim')
                     <button type="button" 
                             class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600" 
