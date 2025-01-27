@@ -76,58 +76,63 @@ class TransaksiController extends Controller
 
     public function generatePdf($filter, Request $request)
     {
-        $startDate = $request->get('start_date');
-        $endDate   = $request->get('end_date');
+        // Ambil parameter start_date dan end_date dari request
+        $startDate = $request->input('start_date');
+        $endDate   = $request->input('end_date');
 
-        $transaksis = Transaksi::with('pelanggan');
+        // Query transaksi dengan relasi pelanggan dan produk
+        $query = Transaksi::with(['pelanggan', 'produk']);
 
-        if ($startDate && $endDate) {
-            $transaksis->whereBetween('tanggal_transaksi', [
-                Carbon::parse($startDate)->startOfDay(),
-                Carbon::parse($endDate)->endOfDay()
-            ]);
+        // Filter berdasarkan tanggal jika diberikan
+        if ($startDate) {
+            $query->where('tanggal_transaksi', '>=', $startDate);
         }
 
-        foreach ($transaksis as $transaksi) {
-            $productIds          = explode(',', $transaksi->id_produk);  // Pisahkan ID produk
-            $transaksi->products = Product::whereIn('id', $productIds)->get();
+        if ($endDate) {
+            $query->where('tanggal_transaksi', '<=', $endDate);
         }
-        // Ambil data transaksi
-        $transaksis = $transaksis->get();
+
+        // Ambil semua transaksi sesuai filter
+        $transaksis = $query->get();
 
         // Hitung total transaksi
         $totalTransaksi = $transaksis->sum('harga_total');
 
-        // Generate PDF with filtered transactions
-        $pdf = PDF::loadView('dashboard.transaksi.pdf', compact('transaksis', 'filter', 'totalTransaksi'));
+        // Generate PDF menggunakan tampilan dan data
+        $pdf = Pdf::loadView('dashboard.transaksi.pdf', compact('transaksis', 'totalTransaksi'));
 
+        // Tentukan nama file PDF
         $filename = 'Transaksi-' . ucfirst($filter) . '.pdf';
 
+        // Download PDF
         return $pdf->download($filename);
     }
 
     public function showAllLaporan(Request $request)
     {
-        $startDate = $request->get('start_date');
-        $endDate   = $request->get('end_date');
+        // Retrieve start_date and end_date from request
+        $startDate = $request->input('start_date');
+        $endDate   = $request->input('end_date');
 
-        // Eager load relasi 'pelanggan' dan 'products'
-        $transaksis = Transaksi::with('pelanggan');
+        // Query transaksi with optional date filtering
+        $query = Transaksi::with(['pelanggan', 'produk']);
 
-        // Terapkan filter tanggal jika ada
-        if ($startDate && $endDate) {
-            $transaksis->whereBetween('tanggal_transaksi', [
-                Carbon::parse($startDate)->startOfDay(),
-                Carbon::parse($endDate)->endOfDay()
-            ]);
+        if ($startDate) {
+            $query->where('tanggal_transaksi', '>=', $startDate);
         }
 
-        // Ambil data transaksi
-        $transaksis = $transaksis->get();
+        if ($endDate) {
+            $query->where('tanggal_transaksi', '<=', $endDate);
+        }
 
-        // Hitung total transaksi
+        $transaksis = $query->get();
+
+        // Calculate total transaksi
         $totalTransaksi = $transaksis->sum('harga_total');
 
-        return view('dashboard.transaksi.laporan', compact('transaksis', 'totalTransaksi'));
+        return view('dashboard.transaksi.laporan', [
+            'transaksi'      => $transaksis,
+            'totalTransaksi' => $totalTransaksi,
+        ]);
     }
 }
