@@ -17,7 +17,7 @@ class TransaksiController extends Controller
         $userId = session('user_id');
 
         $transaksiList = Transaksi::where('id_pelanggan', $userId)
-            ->where('status', 'completed')
+            ->where('status', 'selesai')
             ->get();
 
         foreach ($transaksiList as $transaksi) {
@@ -28,28 +28,50 @@ class TransaksiController extends Controller
         return view('riwayat', compact('transaksiList'));
     }
 
-    public function showAll(Request $request)
+    public function showPesanan()
     {
-        // Mendapatkan filter dari request
-        $filter = $request->get('filter', 'semua');  // Nilainya bisa: 'hari', 'minggu', atau 'bulan'
+        $userId        = session('user_id');
+        $transaksiList = Transaksi::with('product')  // Muat relasi ke produk
+            ->where('id_pelanggan', $userId)
+            ->whereIn('status', ['dikirim'])
+            ->get();
 
-        // Memulai query untuk transaksi
-        $transaksis = Transaksi::with('pelanggan');
+        return view('pesanan', compact('transaksiList'));
+    }
 
-        // Menambahkan kondisi berdasarkan filter
-        if ($filter == 'hari') {
-            $transaksis->hariIni();
-        } elseif ($filter == 'minggu') {
-            $transaksis->mingguIni();
-        } elseif ($filter == 'bulan') {
-            $transaksis->bulanIni();
+    public function updateStatusByUser(Request $request, $id)
+    {
+        // Cari transaksi berdasarkan ID
+        $transaksi = Transaksi::findOrFail($id);
+
+        // Periksa apakah status saat ini adalah 'dikirim'
+        if ($transaksi->status === 'dikirim') {
+            // Ubah status menjadi 'diterima'
+            $transaksi->status = 'selesai';
+            $transaksi->save();
+
+            return redirect()->route('pesanan')->with('success', 'Pesanan telah diterima.');
         }
 
-        // Eksekusi query
-        $transaksis = $transaksis->get();
+        return redirect()->route('pesanan')->with('error', 'Status pesanan tidak valid.');
+    }
 
-        // Menampilkan data transaksi di halaman utama
-        return view('dashboard.transaksi.index', compact('transaksis', 'filter'));
+    public function showAll()
+    {
+        // Ambil semua transaksi beserta relasi pelanggan dan produk
+        $transaksi = Transaksi::with(['pelanggan', 'produk'])->get();
+
+        return view('dashboard.transaksi.index', compact('transaksi'));
+    }
+
+    // Mengupdate status transaksi
+    public function updateStatus(Request $request, $id)
+    {
+        $transaksi         = Transaksi::findOrFail($id);
+        $transaksi->status = $request->status;
+        $transaksi->save();
+
+        return response()->json(['message' => 'Status transaksi berhasil diperbarui']);
     }
 
     public function generatePdf($filter, Request $request)
@@ -100,10 +122,6 @@ class TransaksiController extends Controller
             ]);
         }
 
-        foreach ($transaksis as $transaksi) {
-            $productIds          = explode(',', $transaksi->id_produk);  // Pisahkan ID produk
-            $transaksi->products = Product::whereIn('id', $productIds)->get();
-        }
         // Ambil data transaksi
         $transaksis = $transaksis->get();
 

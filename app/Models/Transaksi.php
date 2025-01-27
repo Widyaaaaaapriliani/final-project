@@ -23,5 +23,24 @@ class Transaksi extends Model
         'tanggal_transaksi'
     ];
 
+    public function pelanggan()
+    {
+        return $this->belongsTo(User::class, 'id_pelanggan', 'id');
+    }
+
+    /**
+     * Relasi ke Product (Produk).
+     * Setiap transaksi memiliki satu produk.
+     */
+    public function produk()
+    {
+        return $this->belongsTo(Product::class, 'id_produk', 'id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'id_produk');  // Sesuaikan nama kolom foreign key
+    }
+
     // Relasi ke pelanggan
 }

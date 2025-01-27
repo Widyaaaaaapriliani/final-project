@@ -16,9 +16,9 @@
     ;">
 
 
-        <div class="bg-white p-2 rounded-lg flex justify-center items-center">
+        <div class="bg-white pr-2 rounded-lg flex justify-center items-center">
             <div class="text-2xl text-slate-700">
-                <img src="{{ asset('images/logo1.png') }}" alt="" class="w-40 ">
+                <img src="{{ asset('images/lumbung-pangan.png') }}" alt="" class="w-[250px]">
             </div>
         </div>
         <ul class="space-y-2 font-medium mt-3">

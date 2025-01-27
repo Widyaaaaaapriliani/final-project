@@ -66,13 +66,14 @@ Route::get('/kategori/{id}', function () {
 })->name('categories.show');
 
 // Route untuk transaksi
-Route::get('/dashboard/transaksi', function () {
-    return view(view: 'dashboard.transaksi.index');
-})->name('transaksi.showAll');
 
 Route::get('/dashboard/transaksi/laporan', function () {
     return view(view: 'dashboard.transaksi.laporan');
 })->name('transaksi.showAllLaporan');
+
+Route::get('/pesanan', [TransaksiController::class, 'showPesanan'])->name('pesanan');
+
+Route::put('/pesanan/{id}', [TransaksiController::class, 'updateStatusByUser'])->name('pesanan.updatebyuser');
 
 // Route untuk logout
 Route::post('/logout', function () {
@@ -96,4 +97,15 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/categories/{id}/edit', [CategoryProductController::class, 'edit'])->name('dashboard.category_products.edit');
     Route::put('/categories/{id}', [CategoryProductController::class, 'update'])->name('dashboard.category_products.update');
     Route::delete('/categories/{id}', [CategoryProductController::class, 'destroy'])->name('dashboard.category_products.destroy');
+
+    Route::patch('/transaksi/{id}/update-status', [TransaksiController::class, 'updateStatus'])->name('transaksi.updateStatus');
+
+    Route::get('/transaksi', [TransaksiController::class, 'showAll'])->name('transaksi.showAll');
+
+    // Route untuk menghapus transaksi
+    Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
+
+    Route::get('/laporan', [TransaksiController::class, 'showAllLaporan'])
+        ->name('transaksi.showAllLaporan');
+    Route::get('/transaksion/export-pdf/{filter?}', [TransaksiController::class, 'generatePdf'])->name('transaksi.exportPdf');
 });

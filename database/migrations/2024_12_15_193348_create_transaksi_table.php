@@ -20,7 +20,7 @@ class CreateTransaksiTable extends Migration
             $table->unsignedBigInteger('id_produk');
             $table->integer('jumlah');
             $table->decimal('harga_total', 10, 2);
-            $table->enum('status', ['pending', 'completed', 'cancelled']);
+            $table->enum('status', ['pending', 'dikemas', 'dikirim', 'selesai']);
             $table->string('bukti_tf');
             $table->timestamp('tanggal_transaksi')->default(DB::raw('CURRENT_TIMESTAMP'));
 

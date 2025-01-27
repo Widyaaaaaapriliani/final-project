@@ -110,7 +110,7 @@ class PaymentController extends Controller
                 'jumlah'            => $item->quantity,
                 'id_produk'         => $product->id,
                 'harga_total'       => $product->harga * $item->quantity,
-                'status'            => 'completed',
+                'status'            => 'pending',
                 'bukti_tf'          => $path,
                 'tanggal_transaksi' => Carbon::now(),
             ]);
