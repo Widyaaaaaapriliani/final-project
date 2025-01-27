@@ -76,7 +76,7 @@ class ProductController extends Controller
             'path_img'    => $imagePath ?? null,  // Menyimpan path gambar
         ]);
 
-        return redirect()->route('products.index');
+        return redirect()->route('dashboard.products');
     }
 
     public function edit($id)
