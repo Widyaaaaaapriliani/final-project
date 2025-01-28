@@ -54,6 +54,7 @@
                     </div>
 
                     <form action="/contact" method="POST" class="bg-white p-8 rounded-xl shadow-md flex flex-col gap-6">
+                        @csrf
                         <div class="grid md:grid-cols-2 grid-cols-1 gap-6">
                             <input type="text" name="name" placeholder="Nama Anda" required
                                 class="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
@@ -67,6 +68,12 @@
                             Kirim Pesan
                         </button>
                     </form>
+                    @if(session('success'))
+                        <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>

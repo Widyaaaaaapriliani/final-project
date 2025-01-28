@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\PaymentController;
@@ -76,6 +77,8 @@ Route::get('/pesanan', [TransaksiController::class, 'showPesanan'])->name('pesan
 Route::put('/pesanan/{id}', [TransaksiController::class, 'updateStatusByUser'])->name('pesanan.updatebyuser');
 
 Route::get('/kategori/{id}', [CategoryProductController::class, 'show'])->name('categories.show');
+
+Route::post('/contact', [ContactController::class, 'sendContactForm'])->name('contact.send');
 
 // Route untuk logout
 Route::post('/logout', function () {
