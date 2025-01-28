@@ -10,24 +10,27 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 </head>
 
-<body class="bg-slate-100">
+<body class="bg-green-700">
 
-    <div class="flex items-center justify-center h-screen w-full bg-slate-100">
-        <div class="h-screen w-full">
-            <img class="w-full h-full" src="{{ asset('images/banner/banner_lumbung.png') }}" alt="">
+    <div class="relative flex items-center justify-center h-screen">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img class="w-full h-full object-cover" src="{{ asset('images/banner/banner_lumbung.png') }}" alt="Background">
         </div>
-        <!-- Login Container -->
-        <div class="absolute top-20 min-w-fit flex-col border bg-white px-6 py-14 shadow-md rounded-[10px] ">
-            <div class="mb-4 flex justify-center">
-                <img src="{{ asset('images/logo_lumbung.png') }}" alt="" class="w-[180px]">
+
+        <!-- Login Form -->
+        <div class="relative z-10 bg-white px-8 py-12 rounded-3xl shadow-2xl max-w-md w-full">
+            <!-- Logo -->
+            <div class="mb-6 text-center">
+                <img src="{{ asset('images/lumbung-pangan.png') }}" alt="Logo" class="mx-auto w-40">
             </div>
-            <div class="text-center text-xl font-bold text-slate-900 mb-5">
-                Enter your Account
-            </div>
+            
+            <!-- Title -->
+            <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">Enter your Account</h2>
 
             <!-- Error Messages -->
             @if ($errors->any())
-                <div class="mb-4 text-red-500">
+                <div class="mb-5 text-red-500 text-sm">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -36,40 +39,39 @@
                 </div>
             @endif
 
-            <form action="{{ route('login') }}" method="POST">
+            <!-- Form -->
+            <form action="{{ route('login') }}" method="POST" class="space-y-4">
                 @csrf
-                <div class="flex flex-col text-sm rounded-md">
+                <div class="flex flex-col space-y-3">
                     <input
-                        class="mb-5 rounded-[4px] border p-3 hover:outline-none focus:outline-none hover:border-indigo-800"
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-700 focus:outline-none mb-4"
                         type="text" name="email" placeholder="Username or Email" required />
                     <input
-                        class="border rounded-[4px] p-3 hover:outline-none focus:outline-none hover:border-indigo-800"
+                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-700 focus:outline-none mb-6"
                         type="password" name="password" placeholder="Password" required />
                 </div>
                 <button
-                type="submit"
-                    class="mt-5 w-full border p-2 bg-green-700 text-white rounded-[4px] hover:bg-green-800 duration-300 font-bold">Sign
-                    in</button>
+                    type="submit"
+                    class="w-full bg-green-700 text-white py-3 rounded-lg hover:bg-green-800 transition duration-300 font-semibold">
+                    Sign in
+                </button>
             </form>
-            <div class="mt-1 flex justify-between text-sm text-gray-900">
-                <a href="#">Forgot password?</a>
-                <a href="{{ route('signup') }}">Sign up</a>
+
+
+            <!-- Google Sign-In -->
+            <div class="flex items-center justify-center mt-6 gap-2 py-3 border rounded-lg cursor-pointer hover:bg-gray-100 transition duration-300">
+                <img src="{{ asset('images/google.png') }}" alt="Google" class="w-5 h-5">
+                <span class="text-blue-600 font-medium">Sign in with Google</span>
             </div>
 
-            <div class="flex justify-center mt-2 text-sm py-2 border rounded-sm gap-2">
-                <img src="{{ asset('images/google.png') }}" alt="google" class="w-5 h-5">
-                <div class="font-semibold text-blue-600">Sign in with Google</div>
-            </div>
-
-            <div class="mt-5 flex text-center text-sm text-gray-400">
-                <p>
-                    This site is protected by reCAPTCHA and the Google <br />
-                    <a class="underline" href="">Privacy Policy</a> and <a class="underline" href="">Terms
-                        of Service</a> apply.
-                </p>
+            <!-- Signup Link -->
+            <div class="mt-4 text-center text-sm text-gray-500">
+                Belum memiliki akun? 
+                <a href="{{ route('signup') }}" class="text-green-700 font-semibold hover:underline">Buat Akun</a>
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

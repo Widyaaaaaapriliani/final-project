@@ -25,7 +25,7 @@
 
     <!-- Main Content -->
     <div class="py-2 px-3 pt-0 sm:ml-64 bg-gray-100">
-        <div class="p-3">
+        <div class="p-3 h-screen">
             @yield('content')
         </div>
     </div>

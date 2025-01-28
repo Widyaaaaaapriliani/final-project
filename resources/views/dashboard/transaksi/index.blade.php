@@ -12,7 +12,7 @@
             <table class="table-auto w-full text-sm text-gray-600 rounded-xl overflow-hidden">
                 <thead class="bg-gray-200 text-gray-800 text-lg ">
                     <tr>
-                        <th class="px-5 py-3 text-left">#</th>
+                        <th class="px-5 py-3 text-left">No</th>
                         <th class="px-5 py-3 text-left">Pelanggan</th>
                         <th class="px-5 py-3 text-left">Produk</th>
                         <th class="px-5 py-3 text-left">Jumlah</th>

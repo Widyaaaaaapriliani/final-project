@@ -127,9 +127,9 @@
     <!-- Bestsellers Section -->
     <section class="py-12 px-32">
         <div class="container mx-auto mt-20">
-            <h2 class="text-center text-3xl font-semibold text-green-700">Produk Terlaris</h2>
+            <h2 class="text-center text-3xl font-semibold text-green-700">Rekomendasi Untukmu</h2>
             <h2 class="text-center text-xl font-light mb-6 mt-2 mx-52 text-gray-500">
-                Temukan produk terlaris kami yang telah menjadi favorit pelanggan
+                Temukan produk pilihan terbaik untukmu
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
               @if (!empty($products) && count($products) > 0)

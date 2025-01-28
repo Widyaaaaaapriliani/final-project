@@ -90,6 +90,22 @@
                             <div
                                 class="cursor-pointer w-full max-w-md h-[60vh] bg-gray-100 rounded-t-3xl shadow-lg p-6">
                                 <h3 class="text-gray-700 font-semibold mb-2">Preferences</h3>
+                                <a href="{{ route('profile.edit') }}"
+                                    class="flex items-center justify-between py-3 border-b border-gray-200">
+                                    <div class="flex items-center space-x-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" fill="none"
+                                            stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                                            id="History--Streamline-Tabler" height="16" width="16">
+                                            <desc>History Streamline Icon: https://streamlinehq.com</desc>
+                                            <path d="m7.5 5 0 2.5 1.25 1.25" stroke-width="1"></path>
+                                            <path
+                                                d="M1.90625 6.875a5.625 5.625 0 1 1 0.3125 2.5m-0.3125 3.125v-3.125h3.125"
+                                                stroke-width="1"></path>
+                                        </svg>
+                                        <p class="text-gray-700">Edit Profile</p>
+                                    </div>
+                                </a>
+
                                 <a href="{{ route('pesanan') }}"
                                     class="flex items-center justify-between py-3 border-b border-gray-200">
                                     <div class="flex items-center space-x-3">
@@ -104,7 +120,6 @@
                                         </svg>
                                         <p class="text-gray-700">Pesanan Saya</p>
                                     </div>
-
                                 </a>
                                 <a href="{{ route('transaksi.index') }}"
                                     class="flex items-center justify-between py-3 border-b border-gray-200">
@@ -120,7 +135,6 @@
                                         </svg>
                                         <p class="text-gray-700">Riwayat Transaksi</p>
                                     </div>
-
                                 </a>
                                 <a href={{ route('cart.view') }}
                                     class="cursor-pointer flex items-center justify-between py-3 border-b border-gray-200">

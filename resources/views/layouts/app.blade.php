@@ -37,7 +37,7 @@
     <!-- Main Content -->
     <main class="relative">
         <div id="dark-body"
-            class="transition-all duration-150 ease-in-out w-screen h-screen hidden start-0 bg-slate-800 opacity-45 z-40">
+            class="transition-all duration-150 ease-in-out w-screen h-screen hidden start-0 bg-slate-50 opacity-45 z-40">
         </div>
         @yield('content')
     </main>

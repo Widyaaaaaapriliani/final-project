@@ -12,6 +12,9 @@ use App\Http\Controllers\signupController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminProfileController;
+
 
 // Route untuk halaman utama
 
@@ -114,3 +117,15 @@ Route::prefix('dashboard')->group(function () {
         ->name('transaksi.showAllLaporan');
     Route::get('/transaksion/export-pdf/{filter?}', [TransaksiController::class, 'generatePdf'])->name('transaksi.exportPdf');
 });
+
+
+Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/profile/edit', [AdminProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::put('/admin/profile/update', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+});
+
+Route::put('/cart/update/{itemId}', [CartController::class, 'updateQuantity']);

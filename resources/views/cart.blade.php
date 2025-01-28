@@ -40,11 +40,11 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="flex justify-center w-1/5">
-                                {{-- <input class="mx-2 border text-center w-8" type="number"
-                                    value="{{ $item->quantity }}" min="1"
-                                    onchange="updateQuantity({{ $item->id }}, this.value)"> --}}
-                                {{ $item->quantity }}
+                            <div class="flex justify-center w-1/5 items-center gap-2">
+                                <button onclick="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="text-gray-900 text-xl">-</button>
+                                <span class="text-center w-8">{{ $item->quantity }}</span>
+                                <button onclick="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="text-gray-900 text-xl">+</button>
+
                             </div>
                             <span class="text-center w-1/5 font-semibold text-sm">Rp
                                 {{ number_format($item->product->harga, 2) }}</span>
@@ -54,6 +54,7 @@
                     @endforeach
                 </div>
             </div>
+
 
             <!-- Order Summary Section -->
             <div id="summary" class="w-[35%] px-8 py-10 bg-white">
@@ -145,9 +146,8 @@
                     if (data.message === 'Product removed from cart successfully') {
                         alert('Item removed from cart');
                         window.location.reload();
-                        // Bisa tambahkan logika untuk mengupdate tampilan cart
                     } else {
-                        alert(data.message); // Tampilkan pesan error jika ada
+                        alert(data.message);
                     }
                 })
                 .catch(error => {
@@ -188,7 +188,6 @@
         async function submitPaymentProof() {
             const receiptInput = document.getElementById('receipt');
 
-            // Validasi apakah bukti pembayaran diunggah
             if (!receiptInput.files.length) {
                 Swal.fire('Error', 'Please upload a payment proof!', 'error');
                 return;
@@ -228,5 +227,34 @@
                 Swal.fire('Error', 'An error occurred while submitting payment proof', 'error');
             }
         }
+    </script>
+    <script>
+        function updateQuantity(itemId, newQuantity) {
+        if (newQuantity < 1) {
+            alert('Kuantitas tidak bisa kurang dari 1');
+            return;
+        }
+
+        fetch(`/cart/update/${itemId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ quantity: newQuantity })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.reload();  // Refresh halaman setelah kuantitas diperbarui
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Gagal memperbarui kuantitas');
+        });
+    }
     </script>
 @endsection
