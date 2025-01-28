@@ -63,6 +63,6 @@ class signupController extends Controller
         ]);
 
         // Redirect ke halaman login setelah sukses sign up
-        return redirect()->intended('/')->with('success', 'Account created successfully! Please login.');
+        return redirect()->intended('/login')->with('success', 'Account created successfully! Please login.');
     }
 }

@@ -54,6 +54,7 @@ class CategoryProductController extends Controller
     public function show($id)
     {
         $category = CategoryProduct::with('products')->findOrFail($id);
+
         return view('productbycategory', compact('category'));
     }
 

@@ -75,6 +75,8 @@ Route::get('/pesanan', [TransaksiController::class, 'showPesanan'])->name('pesan
 
 Route::put('/pesanan/{id}', [TransaksiController::class, 'updateStatusByUser'])->name('pesanan.updatebyuser');
 
+Route::get('/kategori/{id}', [CategoryProductController::class, 'show'])->name('categories.show');
+
 // Route untuk logout
 Route::post('/logout', function () {
     Auth::logout();
