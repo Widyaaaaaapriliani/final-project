@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\ContactController;
@@ -8,13 +9,12 @@ use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductDetailsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\signupController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminProfileController;
-
 
 // Route untuk halaman utama
 
@@ -89,6 +89,12 @@ Route::post('/logout', function () {
     return redirect('/')->with('status', 'Anda berhasil logout');
 })->name('logout');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [UserController::class, 'viewProfile'])->name('user.profile');
+    Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('user.edit');
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('user.update');
+});
+
 Route::prefix('dashboard')->group(function () {
     Route::get('/', [ProductController::class, 'showProduct'])->name('dashboard.products');
     Route::get('/produk/create', [ProductController::class, 'create'])->name('products.create');
@@ -118,10 +124,8 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/transaksion/export-pdf/{filter?}', [TransaksiController::class, 'generatePdf'])->name('transaksi.exportPdf');
 });
 
-
 Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
-
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/profile/edit', [AdminProfileController::class, 'edit'])->name('admin.profile.edit');

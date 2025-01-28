@@ -19,6 +19,9 @@ class CreateUserTable extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('role');
+            $table->string('address')->nullable();  // Kolom alamat, bisa kosong
+            $table->string('phone')->nullable();  // Kolom nomor telepon, bisa kosong
+            $table->date('birth_date')->nullable();  // Kolom tanggal lahir, bisa kosong
             $table->timestamps(0);  // Menonaktifkan timestamps otomatis
         });
     }
