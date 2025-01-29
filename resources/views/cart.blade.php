@@ -44,7 +44,6 @@
                                 <button onclick="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="text-gray-900 text-xl">-</button>
                                 <span class="text-center w-8">{{ $item->quantity }}</span>
                                 <button onclick="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="text-gray-900 text-xl">+</button>
-
                             </div>
                             <span class="text-center w-1/5 font-semibold text-sm">Rp
                                 {{ number_format($item->product->harga, 2) }}</span>

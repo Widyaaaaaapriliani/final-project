@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-layout')
 
 @section('content')
-    <div class="container mx-auto pt-24 px-4">
+    <div class="container mx-auto pt-24 px-400">
 
         <form class="bg-white p-6 rounded-lg shadow-md" action="{{ route('products.store') }}" method="POST"
             enctype="multipart/form-data">
@@ -36,7 +36,7 @@
 
             <div class="mb-6">
                 <label for="kategori_id" class="block text-lg font-medium text-gray-700 mb-2">Kategori
-                    Skincare</label>
+                    Produk</label>
                 <select name="kategori_id" class="border p-2 w-full">
                     <option value="">Pilih Kategori</option>
                     @foreach ($categories as $category)
@@ -52,7 +52,7 @@
             </div>
 
             <button type="submit"
-                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Simpan
+                class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">Simpan
                 Produk</button>
         </form>
     </div>

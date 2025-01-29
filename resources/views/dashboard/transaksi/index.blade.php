@@ -74,13 +74,15 @@
     </div>
 
     <!-- Modal untuk menampilkan bukti TF -->
-    <div id="buktiTFModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
-        <div class="bg-white rounded-lg p-6 w-96 shadow-lg relative">
-            <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800" onclick="tutup()">✕</button>
-            <h2 class="text-xl font-bold mb-4">Bukti Transfer</h2>
-            <img id="buktiTFImage" src="" alt="Bukti Transfer" class="rounded-md w-full">
-        </div>
+    <div id="buktiTFModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-96 shadow-lg relative">
+        <!-- Tombol Close -->
+        <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800" onclick="tutup()">✕</button>
+        <h2 class="text-xl font-bold mb-4">Bukti Transfer</h2>
+        <img id="buktiTFImage" src="" alt="Bukti Transfer" class="rounded-md w-full">
     </div>
+</div>
+
 @endsection
 
 @section('scripts')

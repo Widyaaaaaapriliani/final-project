@@ -57,13 +57,6 @@
                 </button>
             </form>
 
-
-            <!-- Google Sign-In -->
-            <div class="flex items-center justify-center mt-6 gap-2 py-3 border rounded-lg cursor-pointer hover:bg-gray-100 transition duration-300">
-                <img src="{{ asset('images/google.png') }}" alt="Google" class="w-5 h-5">
-                <span class="text-blue-600 font-medium">Sign in with Google</span>
-            </div>
-
             <!-- Signup Link -->
             <div class="mt-4 text-center text-sm text-gray-500">
                 Belum memiliki akun? 

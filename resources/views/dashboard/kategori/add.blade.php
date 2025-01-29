@@ -29,7 +29,7 @@
                 <input type="file" name="path_img" id="path_img" class="border border-gray-300 p-3 rounded-lg w-full">
             </div>
 
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded-lg">Simpan
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded-lg">Simpan
                 Kategori</button>
         </form>
     </div>

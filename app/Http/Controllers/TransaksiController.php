@@ -135,4 +135,16 @@ class TransaksiController extends Controller
             'totalTransaksi' => $totalTransaksi,
         ]);
     }
+    public function destroy($id)
+    {
+        // Temukan transaksi berdasarkan ID
+        $transaksi = Transaksi::findOrFail($id);
+
+        // Hapus transaksi
+        $transaksi->delete();
+
+        // Kembali ke halaman sebelumnya dengan pesan sukses
+        return redirect()->back()->with('success', 'Transaksi berhasil dihapus.');
+    }
+    
 }

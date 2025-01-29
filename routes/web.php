@@ -119,6 +119,7 @@ Route::prefix('dashboard')->group(function () {
     // Route untuk menghapus transaksi
     Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 
+
     Route::get('/laporan', [TransaksiController::class, 'showAllLaporan'])
         ->name('transaksi.showAllLaporan');
     Route::get('/transaksion/export-pdf/{filter?}', [TransaksiController::class, 'generatePdf'])->name('transaksi.exportPdf');

@@ -125,35 +125,80 @@
     </section>
 
     <!-- Bestsellers Section -->
-    <section class="py-12 px-32">
-        <div class="container mx-auto mt-20">
-            <h2 class="text-center text-3xl font-semibold text-green-700">Rekomendasi Untukmu</h2>
-            <h2 class="text-center text-xl font-light mb-6 mt-2 mx-52 text-gray-500">
-                Temukan produk pilihan terbaik untukmu
-            </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
-              @if (!empty($products) && count($products) > 0)
-                  @foreach ($products as $product)
-                      <x-shop.card-product :path="route('product.show', $product->id)" :title="$product->nama" :id_product="$product->id" :price="number_format($product->harga, 0, ',', '.') . ' IDR'" :image="Str::startsWith($product->path_img, 'http')
-                          ? $product->path_img
-                          : asset('storage/' . $product->path_img)" />
-                  @endforeach
-              @else
-                  <p class="text-center col-span-full">No products available.</p>
-              @endif
-            </div>
-          <dialog id="my_modal_3" class="modal">
-            <div class="modal-box">
+<section class="py-12 px-32">
+    <div class="container mx-auto mt-20">
+        <h2 class="text-center text-3xl font-semibold text-green-700">Rekomendasi Untukmu</h2>
+        <h2 class="text-center text-xl font-light mb-6 mt-2 mx-52 text-gray-500">
+            Temukan produk pilihan terbaik untukmu
+        </h2>
+
+        <!-- Grid Produk dengan Animasi -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
+            @if (!empty($products) && count($products) > 0)
+                @foreach ($products as $product)
+                    <div class="fade-in transform hover:scale-105 transition-all duration-300 ease-in-out bg-white shadow-lg rounded-lg p-4">
+                        <x-shop.card-product 
+                            :path="route('product.show', $product->id)" 
+                            :title="$product->nama" 
+                            :id_product="$product->id" 
+                            :price="number_format($product->harga, 0, ',', '.') . ' IDR'" 
+                            :image="Str::startsWith($product->path_img, 'http')
+                                ? $product->path_img
+                                : asset('storage/' . $product->path_img)" 
+                        />
+                    </div>
+                @endforeach
+            @else
+                <p class="text-center col-span-full">No products available.</p>
+            @endif
+        </div>
+
+        <!-- Modal Animasi -->
+        <dialog id="my_modal_3" class="modal opacity-0 transition-opacity duration-300 scale-90">
+            <div class="modal-box transform transition-all duration-300 scale-95">
                 <form method="dialog">
                     <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
                 <h3 class="text-lg font-bold text-green-700">Keranjang Info</h3>
                 <p class="py-4 text-green-500">Produk Berhasil Ditambahkan</p>
             </div>
-          </dialog>
-        </div>
-    </section>
+        </dialog>
+    </div>
+</section>
 
+<!-- Animasi CSS -->
+<style>
+    /* Animasi Fade-in untuk Kartu Produk */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Animasi Modal */
+    .modal[open] {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+    }
+</style>
+
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopButton" class="hidden fixed bottom-5 right-5 bg-green-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-green-500 transition z-50">
+        ▲
+    </button>
+    <div>
 @endsection
 
 @section('scripts')
@@ -226,6 +271,7 @@
         });
     });
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const swiper = new Swiper('.swiper-container', {
@@ -248,4 +294,44 @@
     });
 </script>
 
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const scrollToTopButton = document.getElementById("scrollToTopButton");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 00) {
+            scrollToTopButton.classList.remove("hidden");
+        } else {
+            scrollToTopButton.classList.add("hidden");
+        }
+    });
+
+    scrollToTopButton.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    });
+});
+</script>
+
+<!-- JavaScript untuk Animasi Modal -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('my_modal_3');
+        if (modal) {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.close();
+                }
+            });
+        }
+    });
+
+    // Tambahkan delay ke setiap kartu produk untuk animasi berurutan
+    document.querySelectorAll('.fade-in').forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.2}s`;
+    });
+</script>
 @endsection

@@ -8,9 +8,11 @@
             <div class="flex">
                 <!-- Product Image -->
                 <div class="w-1/2 flex justify-center relative h-[80vh] overflow-hidden rounded-lg shadow-md bg-green-900">
-                    <img src="{{ Str::startsWith($product->path_img, 'http') ? $product->path_img : asset('storage/' . $product->path_img) }}"
-                        alt="Product Image" class="object-contain max-w-full max-h-[70vh] transform hover:scale-110 transition duration-300 ease-in-out">
-                </div>
+                <img src="{{ Str::startsWith($product->path_img, 'http') ? $product->path_img : asset('storage/' . $product->path_img) }}"
+                    alt="Product Image" class="w-full h-full object-cover hover:scale-110 transition duration-300 ease-in-out">
+            </div>
+
+
 
                 <!-- Product Details -->
                 <div class="w-1/2 flex flex-col p-4 justify-between px-8 space-y-6">
@@ -48,13 +50,10 @@
                             </button>
 
                             <!-- Add to Cart Button -->
-                            <button id="add-to-cart"
+                            <button id="add-to-cart" 
                              class="flex items-center justify-center bg-green-500 text-white hover:bg-green-700 rounded-lg transform transition hover:scale-105 shadow-lg px-4 py-2">
-                            <img src="{{ asset('images/carts.png') }}" alt="cart icon" class="h-12 mr-2">
+                            <img src="{{ asset('images/cart.png') }}" alt="cart icon" class="h-12 mr-2">
                             </button>
-
-
-
                         </div>
                         <dialog id="my_modal_3" class="modal">
                             <div class="modal-box">
@@ -132,7 +131,25 @@
     }
 
     function closePaymentModal() {
-        document.getElementById('payment-modal').classList.add('hidden');
+    // Sembunyikan modal
+    const modal = document.getElementById('payment-modal');
+    modal.classList.add('hidden');
+
+    // Reset input file dan pratinjau gambar
+    const receiptInput = document.getElementById('receipt');
+    const receiptImage = document.getElementById('receipt-image');
+    const receiptPreview = document.getElementById('receipt-preview');
+    const fileInfoText = document.getElementById('file-info');
+
+    // Kosongkan nilai input file
+    receiptInput.value = null;
+
+    // Kosongkan pratinjau gambar
+    receiptImage.src = "";
+    receiptPreview.classList.add('hidden');
+
+    // Kosongkan keterangan file info
+    fileInfoText.textContent = '';
     }
 
    
@@ -142,95 +159,148 @@
 
     // Add to Cart
     document.getElementById('add-to-cart').addEventListener('click', function() {
-        if (!isUserLoggedIn()) {
-            window.location.href = "{{ route('login') }}";
-            return;
-        }
+    const qty = parseInt(document.getElementById('qty').value);
+    const productId = {{ $product->id }};
 
-        const qty = parseInt(document.getElementById('qty').value);
-        const productId = {{ $product->id }};
+    if (isNaN(qty) || qty < 1) {
+        alert('Quantity harus minimal 1.');
+        return;
+    }
 
-        if (isNaN(qty) || qty < 1) {
-            alert('Quantity harus minimal 1.');
-            return;
-        }
-        console.log(qty)
-
-        fetch(`{{ route('cart.add', ':id') }}`.replace(':id', productId), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    quantity: qty
-                })
-            })
-            .then(response => response.json())
-            .then(() => document.getElementById('my_modal_3').showModal())
-            .catch(console.error);
+    fetch(`{{ route('cart.add', ':id') }}`.replace(':id', productId), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ quantity: qty })
+    })
+    .then(response => response.json())
+    .then(() => {
+        updateCartView(); // Memperbarui tampilan keranjang setelah menambahkan item
+    })
+    .catch(error => {
+        console.error(error);
+        alert('Failed to add item to cart.');
     });
+});
+
 
 
     // Receipt Preview
     function previewReceipt() {
-        const receiptInput = document.getElementById('receipt');
-        const receiptPreview = document.getElementById('receipt-preview');
-        const receiptImage = document.getElementById('receipt-image');
+    const receiptInput = document.getElementById('receipt');
+    const receiptPreview = document.getElementById('receipt-preview');
+    const receiptImage = document.getElementById('receipt-image');
+    const fileInfo = document.getElementById('file-info');
 
-        if (receiptInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                receiptImage.src = e.target.result;
-                receiptPreview.classList.remove('hidden');
-            };
-            reader.readAsDataURL(receiptInput.files[0]);
-        } else {
-            receiptPreview.classList.add('hidden');
-        }
+    if (receiptInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            receiptImage.src = e.target.result;
+            receiptPreview.classList.remove('hidden'); // Tampilkan pratinjau
+            fileInfo.textContent = `File yang diunggah: ${receiptInput.files[0].name}`; // Tampilkan nama file
+        };
+        reader.readAsDataURL(receiptInput.files[0]);
+    } else {
+        receiptPreview.classList.add('hidden'); // Sembunyikan pratinjau jika tidak ada file
+        fileInfo.textContent = ''; // Kosongkan keterangan file info
+    }
+}
+    async function submitPaymentProof() {
+    // Cek apakah pengguna sudah login
+    if (!isUserLoggedIn()) {
+        // Jika pengguna belum login, arahkan ke halaman login
+        window.location.href = "{{ route('login') }}";
+        return; // Hentikan eksekusi fungsi
     }
 
-    // Submit Payment Proof
-    async function submitPaymentProof() {
-        if (!isUserLoggedIn()) {
-            // Jika pengguna belum login, arahkan ke halaman login
-            window.location.href = "{{ route('login') }}";
-            return; // Hentikan eksekusi fungsi
+    const receiptInput = document.getElementById('receipt');
+
+    // Cek apakah ada file yang diupload
+    if (!receiptInput.files.length) {
+        alert('Silakan unggah bukti pembayaran sebelum mengirim.');
+        return; // Hentikan eksekusi fungsi jika tidak ada file
+    }
+
+    const formData = new FormData(document.getElementById('upload-receipt-form'));
+    const productId = {{ $product->id }};
+    const quantity = document.getElementById('qty').value;
+
+    formData.append('product_id', productId);
+    formData.append('quantity', quantity);
+
+    try {
+        const response = await fetch(`{{ route('checkout.single', ':productId') }}`.replace(':productId', productId), {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: formData,
+        });
+
+        if (response.ok) {
+            alert('Bukti Pembayaran anda sudah dikirim');
+            toggleModal('payment-modal', false);
+            window.location.reload();
+        } else {
+            const errorData = await response.json();
+            alert(`Gagal mengirim bukti pembayaran: ${errorData.message}`);
+            window.location.reload();
         }
+    } catch (error) {
+        console.error(error);
+        alert('Terjadi kesalahan saat mengirim bukti pembayaran.');
+    }
+}   
+</script>
+@section('scripts')
 
-        const formData = new FormData(document.getElementById('upload-receipt-form'));
-        const productId = {{ $product->id }};
-        const quantity = document.getElementById('qty').value;
-
-        formData.append('product_id', productId);
-        formData.append('quantity', quantity);
-
-        try {
-            const response = await fetch(`{{ route('checkout.single', ':productId') }}`.replace(':productId',
-                productId), {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData,
-            });
-
-            if (response.ok) {
-                alert('Payment proof submitted successfully!');
-                toggleModal('payment-modal', false);
-                window.location.reload();
-            } else {
-                const errorData = await response.json();
-                alert(`Failed to submit payment proof: ${errorData.message}`);
-                window.location.reload();
-            }
-        } catch (error) {
-            console.error(error);
-            alert('Error submitting payment proof.');
-        }
+<script>
+    // Kode yang sudah ada sebelumnya (Toggle Modal, showPaymentModal, dll)
+    
+    // Toggle Modal
+    function toggleModal(modalId, show = true) {
+        const modal = document.getElementById(modalId);
+        modal.classList.toggle('hidden', !show);
     }
     
+    // ... (kode lainnya yang sudah ada) ...
+
+    // Kode baru untuk update harga
+    const hargaAwal = {{ $product->harga }};
+    const stokTersedia = {{ $product->jumlah }};
+
+    const formatKeRupiah = (angka) => {
+        return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    };
+
+    const updateHarga = () => {
+        const kuantitas = parseInt(document.getElementById('qty').value);
+        const totalHarga = hargaAwal * kuantitas;
+        
+        const elemenHarga = document.querySelector('.text-4xl.font-extrabold');
+        elemenHarga.textContent = `Rp ${formatKeRupiah(totalHarga)}`;
+
+        const totalElement = document.querySelector('#payment-modal .text-lg.font-bold.text-gray-900.mb-6 span:last-child');
+        if (totalElement) {
+            totalElement.textContent = `Rp ${formatKeRupiah(totalHarga)}`;
+        }
+    };
+
+    document.getElementById('qty').addEventListener('input', function() {
+        if (parseInt(this.value) > stokTersedia) {
+            this.value = stokTersedia;
+        }
+        if (this.value < 1 || !this.value) {
+            this.value = 1;
+        }
+        updateHarga();
+    });
+
+    document.addEventListener('DOMContentLoaded', updateHarga);
 </script>
+
 @endsection
     
 

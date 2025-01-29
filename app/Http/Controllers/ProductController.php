@@ -21,13 +21,13 @@ class ProductController extends Controller
             return view('list_product', compact('products'));
         }
 
-        $productsLaris = Product::skip(4)->take(4)->get();
+        $productsLaris = Product::skip(10)->take(10)->get();
         return view('shop', compact('products', 'productsLaris'));
     }
 
     public function Best4Product(Request $request)
     {
-        $products = Product::limit(4)->get();
+        $products = Product::limit(10)->get();
         return view('index', compact('products'));
     }
 
@@ -123,3 +123,6 @@ class ProductController extends Controller
         return redirect()->route('dashboard.products')->with('success', 'Product deleted successfully.');
     }
 }
+
+
+
