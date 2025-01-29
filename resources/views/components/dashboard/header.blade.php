@@ -1,5 +1,5 @@
 <div class="w-full">
-    <header class="w-[81%] left-64 top-0 flex fixed items-center justify-between p-4 bg-white shadow z-50">
+    <header class="w-[81%] left-64 top-0 flex fixed items-center justify-between p-4 bg-white shadow z-50 px-9 pl-6">
         <div class="flex flex-col">
             <h1 class="font-bold text-2xl text-slate-950">Dashboard</h1>
         </div>
@@ -14,18 +14,21 @@
                 </svg>
             </label>
             <div class="dropdown dropdown-end">
-    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-        <div class="w-10 rounded-full">
-            <img alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+    <div class="flex gap-2 items-center font-semibold bg-green-600 rounded-full p-1 px-4 text-slate-50">
+        <div>{{ Auth::user()->name }}</div>
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+            
+            <div class="w-10 rounded-full">
+                <img alt="Tailwind CSS Navbar component"
+                src="{{ Auth::user()->profile_photo ? asset('storage/' . Auth::user()->profile_photo) : asset('images/produk.png') }}" 
+                alt="Avatar" />
+            </div>
         </div>
     </div>
 
     <ul tabindex="0"
         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li>
-            <a href="{{ route('profile.edit-admin') }}" class="w-full text-left">Edit Profile</a>
-        </li>
+        
         <li>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf

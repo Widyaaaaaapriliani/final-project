@@ -2,36 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminProfileController extends Controller
 {
-    public function edit()
+    /**
+     * Menampilkan data user yang sedang login.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function viewProfile()
     {
-        $admin = Auth::user(); // Assuming admin user is authenticated
-        return view('admin.edit-admin');
+        $user = Auth::user();
+        return view('dashboard.profile', compact('user'));
     }
 
-    public function update(Request $request)
-    {
-        $admin = Auth::user();
+    /**
+     * Menampilkan halaman edit data user yang sedang login.
+     *
+     * @return \Illuminate\View\View
+     */
 
+    /**
+     * Memperbarui data user yang sedang login.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateProfile(Request $request)
+    {
+        // Ambil ID pengguna dari sesi yang sedang login
+        $userId = Auth::user()->id;
+        $user   = User::findOrFail($userId);
+
+        // Validasi input
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $admin->id,
-            'profile_picture' => 'nullable|image|max:2048',
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|email|unique:users,email,' . $user->id,
+            'gender'        => 'nullable|in:male,female',
+            'address'       => 'nullable|string|max:255',
+            'phone'         => 'nullable|string|max:20',
+            'birth_date'    => 'nullable|date',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $admin->name = $request->name;
-        $admin->email = $request->email;
+        // Jika ada file yang diupload, simpan foto profil
+        if ($request->hasFile('profile_photo')) {
+            // Hapus foto lama jika ada
+            if ($user->profile_photo && file_exists(storage_path('app/public/' . $user->profile_photo))) {
+                unlink(storage_path('app/public/' . $user->profile_photo));
+            }
 
-        if ($request->hasFile('profile_picture')) {
-            $admin->profile_picture = $request->file('profile_picture')->store('profile_pictures', 'public');
+            // Upload foto baru
+            $path                = $request->file('profile_photo')->store('profile_photos', 'public');
+            $user->profile_photo = $path;
         }
 
-        $admin->save();
+        // Update data pengguna
+        $user->update($request->only(['name', 'email', 'gender', 'address', 'phone', 'birth_date']));
 
-        return redirect()->route('admin.profile.edit')->with('success', 'Profile updated successfully.');
+        return redirect()->route('admin.profile')->with('success', 'Profile updated successfully!');
     }
 }

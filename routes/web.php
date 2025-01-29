@@ -96,7 +96,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('dashboard')->group(function () {
-    Route::get('/', [ProductController::class, 'showProduct'])->name('dashboard.products');
+    Route::get('/produk', [ProductController::class, 'showProduct'])->name('dashboard.products');
     Route::get('/produk/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/produk', [ProductController::class, 'store'])->name('products.store');
     Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
@@ -122,6 +122,10 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/laporan', [TransaksiController::class, 'showAllLaporan'])
         ->name('transaksi.showAllLaporan');
     Route::get('/transaksion/export-pdf/{filter?}', [TransaksiController::class, 'generatePdf'])->name('transaksi.exportPdf');
+
+    Route::get('/', [AdminProfileController::class, 'viewProfile'])->name('admin.profile');
+
+    Route::put('/profile/update', [AdminProfileController::class, 'updateProfile'])->name('admin.update');
 });
 
 Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');

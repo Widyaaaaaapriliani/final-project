@@ -63,10 +63,13 @@
                 <div class="drawer-content">
                     <!-- Page content here -->
                     <label for="my-drawer-4" class="drawer-button ">
+                        
                         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                             <div class="w-10 rounded-full">
                                 <img alt="Tailwind CSS Navbar component"
-                                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                src="{{ Auth::user()->profile_photo ? asset('storage/' . Auth::user()->profile_photo) : asset('images/produk.png') }}" 
+                                alt="Avatar" 
+                                />
                             </div>
                         </div>
                     </label>
@@ -77,20 +80,20 @@
                         <!-- Sidebar content here -->
                         <div class="flex p-4 flex-col items-center bg-white w-full h-screen ">
                             <!-- Profile Section -->
-                            <div class=" rounded-lg  w-full max-w-md p-6 text-center">
+                            <div class="rounded-lg w-full max-w-md p-6 text-center bg-white shadow-md">
                                 <div class="flex justify-center">
-                                    <img class="w-32 h-32 rounded-full border-4 border-green-600"
-                                        src="https://via.placeholder.com/150" alt="Avatar">
+                                    <img class="w-32 h-32 rounded-full border-4 border-green-600 object-cover"
+                                    src="{{ Auth::user()->profile_photo ? asset('storage/' . Auth::user()->profile_photo) : asset('images/produk.png') }}" 
+                                    alt="Avatar">
                                 </div>
-                                <h2 class="mt-4 text-3xl font-bold">{{ session('name') }}</h2>
-                                <p class="text-gray-500">{{ session('email') }}</p>
-
+                                <h2 class="mt-4 text-2xl font-semibold text-gray-800">{{ session('name') }}</h2>
+                                <p class="text-gray-500 text-sm">{{ session('email') }}</p>
                             </div>
 
                             <div
                                 class="cursor-pointer w-full max-w-md h-[60vh] bg-gray-100 rounded-t-3xl shadow-lg p-6">
                                 <h3 class="text-gray-700 font-semibold mb-2">Preferences</h3>
-                                <a href="{{ route('profile.edit') }}"
+                                <a href="{{ route('user.profile') }}"
                                     class="flex items-center justify-between py-3 border-b border-gray-200">
                                     <div class="flex items-center space-x-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" fill="none"
@@ -102,7 +105,7 @@
                                                 d="M1.90625 6.875a5.625 5.625 0 1 1 0.3125 2.5m-0.3125 3.125v-3.125h3.125"
                                                 stroke-width="1"></path>
                                         </svg>
-                                        <p class="text-gray-700">Edit Profile</p>
+                                        <p class="text-gray-700">Profile Saya</p>
                                     </div>
                                 </a>
 

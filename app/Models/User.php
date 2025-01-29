@@ -21,10 +21,7 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $fillable = [
-        'email',
-        'name',
-        'password',
-        'role'
+        'email', 'name', 'password', 'role', 'gender', 'address', 'phone', 'birth_date', 'profile_photo'
     ];
 
     public function transaksi()

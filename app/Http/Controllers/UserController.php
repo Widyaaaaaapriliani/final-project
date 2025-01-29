@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function viewProfile()
     {
-        $user = Auth::user();  // Mendapatkan data user yang sedang login
+        $user = Auth::user();
         return view('my-profile', compact('user'));
     }
 
@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function editProfile()
     {
-        $user = Auth::user();  // Mendapatkan data user yang sedang login
+        $user = Auth::user();
         return view('user.edit', compact('user'));
     }
 
@@ -39,30 +39,36 @@ class UserController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        $user = Auth::user();
+        // Ambil ID pengguna dari sesi yang sedang login
+        $userId = Auth::user()->id;
+        $user   = User::findOrFail($userId);
 
         // Validasi input
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'address'  => 'nullable|string|max:255',
-            'phone'    => 'nullable|string|max:15',
-            'password' => 'nullable|string|min:8|confirmed',
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|email|unique:users,email,' . $user->id,
+            'gender'        => 'nullable|in:male,female',
+            'address'       => 'nullable|string|max:255',
+            'phone'         => 'nullable|string|max:20',
+            'birth_date'    => 'nullable|date',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update data user
-        $user->name    = $request->input('name');
-        $user->email   = $request->input('email');
-        $user->address = $request->input('address');
-        $user->phone   = $request->input('phone');
+        // Jika ada file yang diupload, simpan foto profil
+        if ($request->hasFile('profile_photo')) {
+            // Hapus foto lama jika ada
+            if ($user->profile_photo && file_exists(storage_path('app/public/' . $user->profile_photo))) {
+                unlink(storage_path('app/public/' . $user->profile_photo));
+            }
 
-        // Jika password diisi, update password
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
+            // Upload foto baru
+            $path                = $request->file('profile_photo')->store('profile_photos', 'public');
+            $user->profile_photo = $path;
         }
 
-        $user->save();  // Simpan perubahan
+        // Update data pengguna
+        $user->update($request->only(['name', 'email', 'gender', 'address', 'phone', 'birth_date']));
 
-        return redirect()->route('user.profile')->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->route('user.profile')->with('success', 'Profile updated successfully!');
     }
 }
