@@ -201,7 +201,7 @@
 
         const formData = new FormData(document.getElementById('upload-receipt-form'));
         const productId = {{ $product->id }};
-        const quantity = document.getElementById('qty').value;
+        const quantity  = parseInt(document.getElementById('qty').value);
 
         formData.append('product_id', productId);
         formData.append('quantity', quantity);
