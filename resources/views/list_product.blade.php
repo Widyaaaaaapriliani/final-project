@@ -1,5 +1,3 @@
-<!-- resources/views/products/index.blade.php -->
-
 @extends('layouts.app')
 
 @section('title', 'Product List')
@@ -13,49 +11,23 @@
         </div>
 
         <!-- Products Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mt-5  min-h-screen">
-
-            <p class="text-center col-span-full">No products available.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
+            @if (!empty($products) && count($products) > 0)
+                @foreach ($products as $product)
+                    <x-shop.card-product :path="route('product.show', $product->id)" :title="$product->nama" :id_product="$product->id" :price="number_format($product->harga, 0, ',', '.') . ' IDR'" :image="Str::startsWith($product->path_img, 'http')
+                        ? $product->path_img
+                        : asset('storage/' . $product->path_img)"
+                         />
+                @endforeach
+            @else
+                <p class="text-center col-span-full">No products available.</p>
+            @endif
         </div>
 
+        
         <!-- Pagination -->
-        <nav aria-label="Page navigation example" class="w-full mt-10">
-            <ul class="flex items-center -space-x-px h-10 text-base justify-center">
-                <!-- Previous Button -->
-                <li>
-                    <a href="#"
-                        class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
-                        <span class="sr-only">Previous</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 1 1 5l4 4" />
-                        </svg>
-                    </a>
-                </li>
-                <!-- Page Numbers -->
-                <li><a href="#"
-                        class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
-                </li>
-                <li><a href="#"
-                        class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">2</a>
-                </li>
-                <li><a href="#"
-                        class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">3</a>
-                </li>
-                <!-- Next Button -->
-                <li>
-                    <a href="#"
-                        class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
-                        <span class="sr-only">Next</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M1 9l4-4-4-4" />
-                        </svg>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <div class="flex justify-center mt-10">
+            {{ $products->appends(['size' => request('size')])->links('vendor.pagination.tailwind') }}
+        </div>
     </div>
 @endsection

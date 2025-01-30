@@ -88,6 +88,7 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/')->with('status', 'Anda berhasil logout');
 })->name('logout');
+Route::get('/list-products', [ProductController::class, 'paginate'])->name('products.list');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'viewProfile'])->name('user.profile');
@@ -118,7 +119,6 @@ Route::prefix('dashboard')->group(function () {
 
     // Route untuk menghapus transaksi
     Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
-
 
     Route::get('/laporan', [TransaksiController::class, 'showAllLaporan'])
         ->name('transaksi.showAllLaporan');

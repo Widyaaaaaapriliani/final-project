@@ -25,6 +25,14 @@ class ProductController extends Controller
         return view('shop', compact('products', 'productsLaris'));
     }
 
+    public function paginate(Request $request)
+    {
+        $size     = $request->query('size', 12);  // Default 15 produk per halaman
+        $products = Product::paginate($size);
+
+        return view('list_product', compact('products'));
+    }
+
     public function Best4Product(Request $request)
     {
         $products = Product::limit(10)->get();
@@ -123,6 +131,3 @@ class ProductController extends Controller
         return redirect()->route('dashboard.products')->with('success', 'Product deleted successfully.');
     }
 }
-
-
-

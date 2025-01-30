@@ -63,7 +63,6 @@
 
         </div>
         <!-- Pagination -->
-        <div class="swiper-pagination mt-4"></div>
       </div>
     </div>
   </div>
@@ -164,44 +163,45 @@
             </div>
         </dialog>
     </div>
+    <button id="scrollToTopButton" class="hidden fixed bottom-20 right-5 bg-green-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-green-500 transition z-50">
+      ▲
+    </button>
 </section>
 
 <!-- Animasi CSS -->
-<style>
-    /* Animasi Fade-in untuk Kartu Produk */
-    .fade-in {
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 0.5s ease-out forwards;
-    }
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Animasi Modal */
-    .modal[open] {
-        opacity: 1 !important;
-        transform: scale(1) !important;
-    }
-</style>
 
 
     <!-- Scroll to Top Button -->
-    <button id="scrollToTopButton" class="hidden fixed bottom-5 right-5 bg-green-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-green-500 transition z-50">
-        ▲
-    </button>
-    <div>
+   
 @endsection
 
 @section('scripts')
+<style>
+  /* Animasi Fade-in untuk Kartu Produk */
+  .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+      from {
+          opacity: 0;
+          transform: translateY(20px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  /* Animasi Modal */
+  .modal[open] {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+  }
+</style>
 <script>
     function toggleModal(modalId, show = true) {
         const modal = document.getElementById(modalId);
@@ -251,7 +251,6 @@
                 const data = await response.json();
                 console.log('Response:', data);
 
-                // Tampilkan SweetAlert untuk notifikasi sukses
                 Swal.fire({
                     icon: 'success',
                     title: 'Berhasil!',
@@ -279,7 +278,7 @@
             loop: true, // Slider akan kembali ke awal setelah slide terakhir
             autoplay: {
                 delay: 3000, // Interval antar slide (ms)
-                disableOnInteraction: false, // Autoplay tetap berjalan meskipun pengguna berinteraksi
+                disableOnInteraction: false, 
             },
             pagination: {
                 el: '.swiper-pagination', // Elemen pagination
