@@ -9,8 +9,10 @@
                 <!-- Product Image -->
                 <div class="w-1/2 flex justify-center relative h-[80vh] overflow-hidden rounded-lg shadow-md bg-green-900">
                     <img src="{{ Str::startsWith($product->path_img, 'http') ? $product->path_img : asset('storage/' . $product->path_img) }}"
-                        alt="Product Image" class="object-contain max-w-full max-h-[70vh] transform hover:scale-110 transition duration-300 ease-in-out">
+                        alt="Product Image" 
+                        class="w-full h-full object-cover transform hover:scale-110 transition duration-300 ease-in-out">
                 </div>
+
 
                 <!-- Product Details -->
                 <div class="w-1/2 flex flex-col p-4 justify-between px-8 space-y-6">
